@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="JAGAA's Munchies: homemade donuts, mandazi, samosas, chapati, rolex and more, made fresh to order.">
+<title>JAGAA's Munchies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400&display=swap">
+<style>
+  /* Single dark look by design: colors are set explicitly for every host theme. */
+  :root {
+    color-scheme: dark;
+    --bg: #0f0f0f;
+    --bg-2: #111111;
+    --bg-3: #1a1a1a;
+    --bg-foot: #0a0a0a;
+    --line: #1f1f1f;
+    --line-2: #2a2a2a;
+    --text: #fafafa;
+    --text-soft: #c0c0c0;
+    --muted: #8c8c8c;
+    --muted-2: #7a7a7a;
+    --saffron: #f0a82a;
+    --deep-orange: #c47a1a;
+    --on-saffron: #0f0f0f;
+    --on-saffron-soft: #3a2a00;
+    --gutter: clamp(16px, 6vw, 96px);
+    --display: 'Bebas Neue', 'Oswald', 'Arial Narrow', Impact, sans-serif;
+    --body: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--saffron); outline-offset: 3px; border-radius: 3px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; text-wrap: balance; letter-spacing: 0.01em; }
+  p { margin: 0; }
+  .wrap { padding-inline: var(--gutter); }
+  .kicker { font-size: 12px; font-weight: 300; letter-spacing: 0.16em; text-transform: uppercase; color: var(--saffron); }
+  .ph { color: var(--saffron); background: rgba(240,168,42,0.12); border: 1px dashed rgba(240,168,42,0.55); border-radius: 2px; padding: 0 5px; white-space: nowrap; }
+  .on-saffron .ph { color: var(--on-saffron); background: rgba(15,15,15,0.08); border-color: rgba(15,15,15,0.45); }
+
+  /* ---------- Buttons ---------- */
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--body); font-size: 15px; border-radius: 3px; padding: 14px 28px; cursor: pointer; border: 1px solid transparent; transition: background-color .2s ease-out, border-color .2s ease-out, color .2s ease-out; }
+  .btn-primary { background: var(--saffron); color: var(--on-saffron); }
+  .btn-primary:hover { background: var(--deep-orange); }
+  .btn-ghost { background: transparent; color: var(--text); border-color: rgba(240,168,42,0.5); }
+  .btn-ghost:hover { border-color: var(--saffron); background: rgba(240,168,42,0.1); }
+  .btn-dark { background: var(--bg); color: var(--text); padding: 16px 32px; }
+  .btn-dark:hover { background: var(--bg-3); }
+
+  /* ---------- Navbar ---------- */
+  .nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; height: 60px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    background: var(--bg); border-bottom: 1px solid var(--line);
+    animation: navIn .45s ease-out both;
+  }
+  .brand { font-family: var(--display); font-size: 22px; letter-spacing: 0.06em; color: var(--text); white-space: nowrap; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-size: 14px; color: var(--text-soft); transition: color .2s; }
+  .nav-links a:hover { color: var(--saffron); }
+  .nav .btn { padding: 10px 20px; font-size: 14px; }
+  @keyframes navIn { from { transform: translateY(-60px); } to { transform: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: hidden; background: var(--bg); min-height: min(100vh, 900px); display: flex; }
+  .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .hero-shade { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to right, rgba(15,15,15,0.92) 0%, rgba(15,15,15,0.65) 55%, transparent 100%); }
+  .hero-bgtext {
+    position: absolute; right: -2%; top: 50%; transform: translateY(-50%); z-index: 2;
+    font-family: var(--display); font-size: clamp(240px, 34vw, 500px); line-height: 0.82; text-align: right;
+    color: var(--saffron); opacity: 0.04; pointer-events: none; user-select: none; white-space: nowrap;
+  }
+  .hero-content { position: relative; z-index: 10; width: 55%; display: flex; flex-direction: column; justify-content: center; padding-block: 72px; padding-left: var(--gutter); padding-right: 24px; }
+  .hero h1 { font-size: clamp(58px, 8.5vw, 145px); line-height: 0.92; color: var(--text); margin-top: 12px; animation: slideIn .7s ease-out .1s both; }
+  .hero-sub { margin-top: 20px; max-width: 440px; font-size: 17px; font-weight: 300; line-height: 1.65; color: #a8a8a8; animation: rise .6s ease-out .3s both; }
+  .hero-ctas { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; animation: rise .6s ease-out .5s both; }
+  .pick-card {
+    position: relative; z-index: 20; margin-top: 32px; align-self: flex-start; min-width: 240px;
+    background: var(--bg-3); border: 1px solid var(--saffron); border-radius: 4px; padding: 16px 20px;
+    transform-origin: top left; animation: pop .5s cubic-bezier(.34,1.56,.64,1) .4s both;
+  }
+  .pick-card h2 { font-size: 16px; letter-spacing: 0.08em; color: var(--saffron); }
+  .pick-card hr { border: 0; height: 1px; background: var(--line-2); margin: 8px 0; }
+  .pick-card ul { list-style: none; margin: 0; padding: 0; }
+  .pick-card li { display: flex; justify-content: space-between; align-items: center; gap: 32px; padding: 6px 0; }
+  .pick-card li span:first-child { font-size: 14px; font-weight: 300; }
+  .pick-card li span:last-child { font-size: 13px; font-weight: 300; color: var(--saffron); font-variant-numeric: tabular-nums; }
+  .pick-card > a { display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 300; color: var(--saffron); }
+  .pick-card > a:hover { text-decoration: underline; }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+  @keyframes pop { from { transform: scale(.9); } to { transform: scale(1); } }
+
+  /* ---------- Section shells ---------- */
+  .section { padding-block: 80px; background: var(--bg); }
+  .section-head { margin-bottom: 48px; }
+  .section-head .kicker { display: block; margin-bottom: 8px; }
+  .h-xl { font-size: clamp(36px, 5vw, 80px); line-height: 0.95; }
+  .h-lg { font-size: clamp(32px, 4.5vw, 72px); line-height: 0.95; }
+  .h-md { font-size: clamp(28px, 4vw, 56px); line-height: 0.95; }
+
+  /* ---------- Category rows ---------- */
+  .cats { border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .cat {
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 28px 8px 28px 0; border-top: 1px solid rgba(255,255,255,0.12); border-left: 0 solid var(--saffron);
+    transition: transform .2s ease-out, padding-left .2s ease-out, border-left-width .2s ease-out, box-shadow .2s ease-out;
+  }
+  .cat:hover, .cat:focus-visible { transform: translateY(-3px); padding-left: 16px; border-left-width: 4px; box-shadow: 0 4px 20px rgba(240,168,42,0.25); outline: none; }
+  .cat h3 { font-size: 28px; line-height: 1; }
+  .cat p { margin-top: 4px; font-size: 14px; color: var(--muted); }
+  .cat-right { display: flex; align-items: center; flex-shrink: 0; }
+  .cat-from { font-size: 14px; font-weight: 300; color: var(--muted-2); }
+  .cat-arrow { margin-left: 12px; font-family: var(--display); font-size: 24px; color: var(--saffron); }
+
+  /* ---------- Signature cards ---------- */
+  .sig-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .sig { background: var(--bg-2); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; transition: transform .2s ease-out, border-color .2s ease-out; }
+  .sig:hover { transform: translateY(-4px); border-color: var(--saffron); }
+  .sig-img { overflow: hidden; }
+  .sig-img img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center; transition: transform .25s ease-out; }
+  .sig:hover .sig-img img { transform: scale(1.04); }
+  .sig-body { padding: 20px; }
+  .sig h3 { font-size: 28px; line-height: 1; }
+  .sig-desc { margin-top: 6px; font-size: 13px; font-weight: 300; color: var(--muted); }
+  .sig-price { margin-top: 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .sig-price strong { font-family: var(--display); font-weight: 400; font-size: 24px; color: var(--saffron); }
+  .sig-price span { font-size: 12px; font-weight: 300; color: var(--muted-2); }
+
+  /* ---------- How to order ---------- */
+  .order-card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 4px; padding: 40px; }
+  .order-card.reveal { transition: transform .5s ease-out; }
+  .order-card.reveal.pending { transform: scale(.97); }
+  .order-intro { margin-top: 8px; margin-bottom: 32px; font-size: 14px; font-weight: 300; color: var(--muted); }
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  .step { display: flex; align-items: center; gap: 16px; background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 4px; padding: 16px 20px; }
+  .step svg { flex-shrink: 0; color: var(--saffron); }
+  .step-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+  .step-text strong { font-family: var(--display); font-weight: 400; font-size: 18px; line-height: 1.2; letter-spacing: 0.02em; }
+  .step-text span { font-size: 13px; font-weight: 300; color: var(--muted); }
+  .chip { flex-shrink: 0; display: flex; align-items: center; background: rgba(240,168,42,0.12); border: 1px solid rgba(240,168,42,0.3); border-radius: 2px; padding: 4px 12px; font-size: 12px; font-weight: 300; color: var(--saffron); letter-spacing: 0.06em; }
+  .order-lines { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .order-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; }
+  .order-line svg { color: var(--saffron); flex-shrink: 0; }
+  .order-line .soft { font-weight: 300; color: var(--muted); }
+  .order-line .hi { color: var(--saffron); }
+  .copy-btn { font-family: var(--body); font-size: 12px; font-weight: 300; color: var(--text-soft); background: transparent; border: 1px solid var(--line-2); border-radius: 2px; padding: 3px 10px; cursor: pointer; transition: border-color .2s, color .2s; }
+  .copy-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+
+  /* ---------- Stats strip ---------- */
+  .stats { background: var(--saffron); padding-block: 48px; }
+  .stats-row { display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; gap: 32px 64px; }
+  .stat { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .stat-val { font-family: var(--display); font-size: 72px; line-height: 1; color: var(--on-saffron); font-variant-numeric: tabular-nums; }
+  .stat-val.static { font-size: 56px; }
+  .stat-label { margin-top: 4px; font-size: 14px; font-weight: 300; letter-spacing: 0.06em; text-transform: uppercase; color: var(--on-saffron-soft); }
+
+  /* ---------- Full menu ---------- */
+  .menu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 64px; }
+  .menu-group h3 { font-size: 20px; letter-spacing: 0.1em; color: var(--saffron); margin-bottom: 20px; }
+  .menu-group ul { list-style: none; margin: 0; padding: 0; }
+  .menu-group li { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .menu-group li small { font-size: 13px; font-weight: 300; color: var(--muted); margin-left: 6px; }
+  .menu-group li b { font-weight: 300; color: var(--saffron); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+  .juice { margin-top: 56px; display: grid; grid-template-columns: minmax(0, 1fr) 320px; overflow: hidden; background: rgba(240,168,42,0.08); border: 1px solid rgba(240,168,42,0.2); border-radius: 4px; }
+  .juice-body { padding: 32px; }
+  .juice-kicker { font-family: var(--display); font-size: 16px; letter-spacing: 0.08em; color: var(--saffron); }
+  .juice-title { margin-top: 4px; font-size: 18px; }
+  .juice-sub { margin-top: 4px; font-size: 14px; font-weight: 300; color: var(--muted); }
+  .juice-days { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .juice-days li { background: rgba(15,15,15,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 12px 16px; }
+  .juice-days b { font-family: var(--display); font-weight: 400; font-size: 14px; letter-spacing: 0.08em; color: var(--saffron); }
+  .juice-days strong { font-family: var(--display); font-weight: 400; font-size: 18px; margin-left: 6px; }
+  .juice-days p { font-size: 13px; font-weight: 300; color: var(--muted); }
+  .juice-price { margin-top: 20px; font-family: var(--display); font-size: 24px; color: var(--saffron); }
+  .juice img { width: 100%; height: 100%; object-fit: cover; object-position: right center; }
+  .nb { margin-top: 32px; max-width: 42rem; font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--muted-2); }
+
+  /* ---------- About ---------- */
+  .about { background: var(--bg-2); padding-block: 64px; }
+  .about-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; align-items: center; }
+  .about-grid img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: top; border: 1px solid var(--line); border-radius: 4px; }
+  .about-copy .kicker { display: block; margin-bottom: 8px; }
+  .about-copy p.body { margin-top: 20px; max-width: 36rem; font-size: 16px; line-height: 1.7; color: var(--muted); }
+  .about-sign { margin-top: 16px; font-size: 14px; font-weight: 300; color: var(--saffron); }
+
+  /* ---------- CTA ---------- */
+  .cta { background: var(--saffron); color: var(--on-saffron); padding-block: 64px; text-align: center; }
+  .cta h2 { font-size: clamp(48px, 7vw, 110px); line-height: 1; }
+  .cta p { margin: 12px auto 0; max-width: 36rem; font-size: 17px; color: var(--on-saffron-soft); }
+  .cta .btn-dark { margin-top: 32px; }
+  .cta .follow { margin-top: 16px; font-size: 14px; }
+
+  /* ---------- Footer ---------- */
+  .foot { background: var(--bg-foot); border-top: 1px solid var(--line); padding-top: 40px; padding-bottom: 24px; }
+  .foot-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+  .foot-brand { font-family: var(--display); font-size: 20px; letter-spacing: 0.04em; color: var(--saffron); }
+  .foot-tag { margin-top: 4px; font-size: 13px; font-weight: 300; color: #6a6a6a; }
+  .foot h3 { font-size: 16px; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 12px; }
+  .foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 300; color: #6a6a6a; }
+  .foot a:hover { color: var(--saffron); }
+  .copyright { margin-top: 40px; font-size: 12px; font-weight: 300; color: #555; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1024px) {
+    .sig-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 767px) {
+    .nav-links { display: none; }
+    .hero { min-height: 0; }
+    .hero-shade { background: linear-gradient(to top, rgba(15,15,15,0.95) 0%, rgba(15,15,15,0.75) 60%, rgba(15,15,15,0.55) 100%); }
+    .hero-bgtext { display: none; }
+    .hero-content { width: 100%; padding-right: var(--gutter); padding-block: 56px; }
+    .pick-card { align-self: stretch; min-width: 0; }
+    .cat-from { display: none; }
+    .sig-grid, .menu-grid, .about-grid, .foot-grid { grid-template-columns: minmax(0, 1fr); }
+    .order-card { padding: 24px 16px; }
+    .step { padding: 14px 16px; }
+    .chip { display: none; }
+    .stat-val { font-size: 56px; }
+    .stat-val.static { font-size: 40px; }
+    .juice { grid-template-columns: minmax(0, 1fr); }
+    .juice img { display: none; }
+    .juice-body { padding: 20px; }
+    .juice-days { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Icons (lucide) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></symbol>
+    <symbol id="i-chef" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></symbol>
+  </defs>
+</svg>
+
+<header class="nav wrap">
+  <a class="brand" href="#top">JAGAA's Munchies</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="#menu">Menu</a>
+    <a href="#order">How to Order</a>
+    <a href="#about">About</a>
+    <a href="#contact">Instagram</a>
+  </nav>
+  <a class="btn btn-primary" href="#order">Order Now</a>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <img class="hero-img" src="images/mandazi.jpg" alt="A plate piled with golden, freshly fried mandazi">
+    <div class="hero-shade"></div>
+    <div class="hero-bgtext" aria-hidden="true">JAGAAS<br>MUNCHIES</div>
+    <div class="hero-content">
+      <p class="kicker">Homemade Snacks · <span class="ph">[Your City]</span></p>
+      <h1>The Munchies You'll Crave All Week.</h1>
+      <p class="hero-sub">Golden donuts, soft mandazi, crispy samosas and fresh chapati. Everything is cooked by hand only after you order, so nothing ever sits on a shelf.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#full-menu">See Full Menu</a>
+        <a class="btn btn-ghost" href="#order">How to Order</a>
+      </div>
+      <div class="pick-card">
+        <h2>Today's Top Picks</h2>
+        <hr>
+        <ul>
+          <li><span>Samosa</span><span>20kr</span></li>
+          <li><span>Donut</span><span>10kr</span></li>
+          <li><span>Rolex</span><span>50kr</span></li>
+        </ul>
+        <a href="#full-menu">See Full Menu →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu categories -->
+  <section class="section wrap" id="menu">
+    <div class="section-head">
+      <span class="kicker">The Menu</span>
+      <h2 class="h-xl">What We Make</h2>
+    </div>
+    <div class="cats">
+      <a class="cat" href="#full-menu">
+        <div><h3>Sweet Bites</h3><p>Donuts, mandazi and pancakes. Golden outside, soft and fluffy inside.</p></div>
+        <div class="cat-right"><span class="cat-from">from 5kr</span><span class="cat-arrow">→</span></div>
+      </a>
+      <a class="cat" href="#full-menu">
+        <div><h3>Savoury Snacks</h3><p>Crispy samosas and egg rolls, fried fresh for every order.</p></div>
+        <div class="cat-right"><span class="cat-from">from 20kr</span><span class="cat-arrow">→</span></div>
+      </a>
+      <a class="cat" href="#full-menu">
+        <div><h3>Chapati &amp; Classics</h3><p>Soft layered chapati, plus the rolex and kikomando.</p></div>
+        <div class="cat-right"><span class="cat-from">from 15kr</span><span class="cat-arrow">→</span></div>
+      </a>
+      <a class="cat" href="#full-menu">
+        <div><h3>Daddies</h3><p>Crunchy bite-size snacks by the packet: small, medium or big.</p></div>
+        <div class="cat-right"><span class="cat-from">from 100kr</span><span class="cat-arrow">→</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Signatures -->
+  <section class="section wrap">
+    <div class="section-head"><h2 class="h-lg">The Signatures</h2></div>
+    <div class="sig-grid">
+      <article class="sig">
+        <div class="sig-img"><img src="images/samosas.jpg" alt="Golden crispy triangle samosas in a bowl with lime and coriander" loading="lazy"></div>
+        <div class="sig-body"><h3>Samosas</h3><p class="sig-desc">Crispy pastry · Savoury filling · Fried fresh to order</p><div class="sig-price"><strong>20kr each</strong><span>5 for 100kr</span></div></div>
+      </article>
+      <article class="sig">
+        <div class="sig-img"><img src="images/donuts.jpg" alt="Golden fried ring donuts piled in a bowl" loading="lazy"></div>
+        <div class="sig-body"><h3>Donuts</h3><p class="sig-desc">Soft ring donuts · Golden fried · Lightly sweet</p><div class="sig-price"><strong>10kr each</strong><span>5 for 50kr</span></div></div>
+      </article>
+      <article class="sig">
+        <div class="sig-img"><img src="images/egg-rolls.jpg" alt="Crispy egg rolls with one cut open to show the boiled egg inside" loading="lazy"></div>
+        <div class="sig-body"><h3>Egg Rolls</h3><p class="sig-desc">Whole egg · Seasoned coating · Crispy fried shell</p><div class="sig-price"><strong>50kr each</strong><span>5 for 300kr</span></div></div>
+      </article>
+      <article class="sig">
+        <div class="sig-img"><img src="images/mandazi.jpg" alt="A plate piled with golden fried mandazi" loading="lazy"></div>
+        <div class="sig-body"><h3>Mandazi</h3><p class="sig-desc">East African fried dough · Pillowy inside · Crisp edges</p><div class="sig-price"><strong>5kr each</strong><span>5 for 30kr</span></div></div>
+      </article>
+      <article class="sig">
+        <div class="sig-img"><img src="images/pancakes.jpg" alt="Two tall stacks of thick golden-brown pancakes" loading="lazy"></div>
+        <div class="sig-body"><h3>Pancakes</h3><p class="sig-desc">Thick &amp; fluffy · Golden brown · Great any time of day</p><div class="sig-price"><strong>10kr each</strong><span>5 for 50kr</span></div></div>
+      </article>
+      <article class="sig">
+        <div class="sig-img"><img src="images/chapati.jpg" alt="Soft chapati on a white plate, two rolled on top" loading="lazy"></div>
+        <div class="sig-body"><h3>Chapati</h3><p class="sig-desc">Soft &amp; layered · Pan-cooked · Perfect with anything</p><div class="sig-price"><strong>15kr each</strong><span>5 for 80kr</span></div></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- How to order -->
+  <section class="section wrap" id="order">
+    <div class="order-card reveal">
+      <h2 class="h-md">How to Order.</h2>
+      <p class="order-intro">We only make after orders and payments are made, so every snack reaches you fresh.</p>
+      <ol class="steps">
+        <li class="step"><svg width="18" height="18"><use href="#i-phone"/></svg><div class="step-text"><strong>Call or text your order</strong><span>Reach us on 0766 189 177 with what you'd like.</span></div><span class="chip">STEP 1</span></li>
+        <li class="step"><svg width="18" height="18"><use href="#i-card"/></svg><div class="step-text"><strong>Make your payment</strong><span>We only start cooking once payment is made.</span></div><span class="chip">STEP 2</span></li>
+        <li class="step"><svg width="18" height="18"><use href="#i-chef"/></svg><div class="step-text"><strong>We cook it fresh</strong><span>Everything is made after you order. Nothing sits waiting.</span></div><span class="chip">STEP 3</span></li>
+        <li class="step"><svg width="18" height="18"><use href="#i-truck"/></svg><div class="step-text"><strong>Agree on delivery</strong><span>Delivery is arranged between you and us. We cover <span class="ph">[Your delivery area]</span>.</span></div><span class="chip">STEP 4</span></li>
+      </ol>
+      <div class="order-lines">
+        <div class="order-line">
+          <svg width="18" height="18"><use href="#i-phone"/></svg>
+          <span class="soft">Call or text</span>
+          <a class="hi" href="tel:+46766189177" id="phone-number">0766 189 177</a>
+          <button class="copy-btn" type="button" id="copy-phone" data-copy="0766189177">Copy number</button>
+        </div>
+        <div class="order-line">
+          <svg width="18" height="18"><use href="#i-clock"/></svg>
+          <span class="soft">We take orders:</span>
+          <span class="ph">[Order hours, e.g. Mon–Sat · 9am–6pm]</span>
+        </div>
+        <div class="order-line">
+          <svg width="18" height="18"><use href="#i-insta"/></svg>
+          <span class="soft">Follow</span>
+          <span class="ph">[@your_instagram]</span>
+          <span class="soft">for new snacks and updates.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats wrap" aria-label="At a glance">
+    <div class="stats-row">
+      <div class="stat"><span class="stat-val" data-count="9">9</span><span class="stat-label">Snacks on the Menu</span></div>
+      <div class="stat"><span class="stat-val" data-count="100" data-suffix="%">100%</span><span class="stat-label">Homemade</span></div>
+      <div class="stat"><span class="stat-val" data-count="5" data-suffix="kr">5kr</span><span class="stat-label">Snacks From</span></div>
+      <div class="stat"><span class="stat-val static">Made to Order</span><span class="stat-label">Always Fresh</span></div>
+    </div>
+  </section>
+
+  <!-- Full menu -->
+  <section class="section wrap" id="full-menu">
+    <div class="section-head"><h2 class="h-lg">The Full Menu</h2></div>
+    <div class="menu-grid">
+      <div class="menu-group">
+        <h3>Sweet Bites</h3>
+        <ul>
+          <li><span>Donut<small>· 5 for 50kr</small></span><b>10kr</b></li>
+          <li><span>Mandazi<small>· 5 for 30kr</small></span><b>5kr</b></li>
+          <li><span>Pancake<small>· 5 for 50kr</small></span><b>10kr</b></li>
+        </ul>
+      </div>
+      <div class="menu-group">
+        <h3>Savoury Snacks</h3>
+        <ul>
+          <li><span>Samosa<small>· 5 for 100kr</small></span><b>20kr</b></li>
+          <li><span>Egg Roll<small>· 5 for 300kr</small></span><b>50kr</b></li>
+        </ul>
+      </div>
+      <div class="menu-group">
+        <h3>Chapati &amp; Classics</h3>
+        <ul>
+          <li><span>Chapati<small>· 5 for 80kr</small></span><b>15kr</b></li>
+          <li><span>Rolex<small>· 1 chapati rolled with 1 egg</small></span><b>50kr</b></li>
+          <li><span>Kikomando<small>· 1 chapati with beans</small></span><b>50kr</b></li>
+        </ul>
+      </div>
+      <div class="menu-group">
+        <h3>Daddies</h3>
+        <ul>
+          <li><span>Small packet</span><b>100kr</b></li>
+          <li><span>Medium packet</span><b>300kr</b></li>
+          <li><span>Big packet</span><b>500kr</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="juice">
+      <div class="juice-body">
+        <p class="juice-kicker">Also Available · Reset &amp; Restore</p>
+        <p class="juice-title">The 4-Day Juice Cleanse</p>
+        <p class="juice-sub">Four days, four fresh blends. A new juice for each day.</p>
+        <ul class="juice-days">
+          <li><b>Day 1</b><strong>Digestive Detox</strong><p>pear · ginger · pineapple · green grape · lemon</p></li>
+          <li><b>Day 2</b><strong>Berry Boost</strong><p>blueberry · raspberry · red apple · spinach</p></li>
+          <li><b>Day 3</b><strong>Citrus Glow</strong><p>grapefruit · orange · kiwi · turmeric</p></li>
+          <li><b>Day 4</b><strong>Inner Harmony</strong><p>pineapple · celery · carrot · ginger</p></li>
+        </ul>
+        <p class="juice-price"><span class="ph">[Price]</span>kr</p>
+      </div>
+      <img src="images/juice-cleanse.jpg" alt="Four juices for the 4-day cleanse: green, berry, citrus and pineapple" loading="lazy">
+    </div>
+
+    <p class="nb">NB: We only make after orders and payments are made. Delivery is discussed between the supplier and the customer. Thank you.</p>
+  </section>
+
+  <!-- About -->
+  <section class="about wrap" id="about">
+    <div class="about-grid">
+      <img src="images/founder.jpg" alt="The face behind JAGAA's Munchies, smiling in a pink suit on a city street at night" loading="lazy">
+      <div class="about-copy">
+        <span class="kicker">Our Story</span>
+        <h2 class="h-md">Everything Made by Hand. Nothing Made in Advance.</h2>
+        <p class="body">JAGAA's Munchies started in a home kitchen with one simple rule: nothing gets made until someone orders it. Every donut, mandazi, samosa and chapati is cooked fresh for you, with the flavours of East African street snacks. Rolex and kikomando included.</p>
+        <p class="body">Hi, I'm <span class="ph">[Your Name]</span>. <span class="ph" style="white-space:normal">[Write a line or two about yourself: where you learned to cook, your favourite snack, or why you started JAGAA's Munchies.]</span></p>
+        <p class="about-sign">Est. <span class="ph">[Year]</span> · <span class="ph">[Your City]</span> · <span class="ph">[@your_instagram]</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta on-saffron wrap" id="contact">
+    <h2>Hungry?</h2>
+    <p>Call or text your order, make your payment, and we'll get cooking. We'll agree on delivery together.</p>
+    <a class="btn btn-dark" href="tel:+46766189177">
+      <svg width="16" height="16"><use href="#i-phone"/></svg>
+      Call 0766 189 177
+    </a>
+    <p class="follow">or follow <span class="ph">[@your_instagram]</span></p>
+  </section>
+</main>
+
+<footer class="foot wrap">
+  <div class="foot-grid">
+    <div>
+      <p class="foot-brand">JAGAA's Munchies</p>
+      <p class="foot-tag">Homemade Snacks · <span class="ph">[Your City]</span> · Est. <span class="ph">[Year]</span></p>
+    </div>
+    <div>
+      <h3>Menu</h3>
+      <ul>
+        <li><a href="#full-menu">Sweet Bites</a></li>
+        <li><a href="#full-menu">Savoury Snacks</a></li>
+        <li><a href="#full-menu">Chapati &amp; Classics</a></li>
+        <li><a href="#full-menu">Daddies</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Order</h3>
+      <ul>
+        <li>0766 189 177</li>
+        <li><span class="ph">[your@email.com]</span></li>
+        <li><span class="ph">[@your_instagram]</span></li>
+        <li><span class="ph">[Order hours]</span></li>
+        <li>Delivery by arrangement</li>
+      </ul>
+    </div>
+  </div>
+  <p class="copyright">© 2026 JAGAA's Munchies. All snacks made fresh to order.</p>
+</footer>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Copy phone number
+    var copyBtn = document.getElementById('copy-phone');
+    copyBtn.addEventListener('click', function () {
+      var text = copyBtn.getAttribute('data-copy');
+      var done = function () { copyBtn.textContent = 'Copied'; setTimeout(function () { copyBtn.textContent = 'Copy number'; }, 1800); };
+      var fallback = function () {
+        var r = document.createRange(); r.selectNodeContents(document.getElementById('phone-number'));
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        copyBtn.textContent = 'Selected, press Ctrl+C';
+      };
+      try {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } catch (e) { fallback(); }
+    });
+
+    if (reduce || !('IntersectionObserver' in window)) return;
+
+    // Order card: gentle scale-in when it scrolls into view (stays fully visible throughout)
+    var card = document.querySelector('.order-card.reveal');
+    var rect = card.getBoundingClientRect();
+    if (rect.top > window.innerHeight) {
+      card.classList.add('pending');
+      var io = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { card.classList.remove('pending'); io.disconnect(); }
+      }, { threshold: 0.2 });
+      io.observe(card);
+    }
+
+    // Count-up stats: 1600ms easeOutQuart, starts when the strip is on screen
+    var easeOutQuart = function (t) { return 1 - Math.pow(1 - t, 4); };
+    document.querySelectorAll('[data-count]').forEach(function (el) {
+      var target = +el.getAttribute('data-count');
+      var suffix = el.getAttribute('data-suffix') || '';
+      var obs = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        obs.disconnect();
+        var start = performance.now();
+        (function tick(now) {
+          var t = Math.min((now - start) / 1600, 1);
+          el.textContent = Math.round(easeOutQuart(t) * target) + suffix;
+          if (t < 1) requestAnimationFrame(tick);
+        })(start);
+      }, { threshold: 0.5 });
+      obs.observe(el);
+    });
+  })();
+</script>
+</body>
+</html>
